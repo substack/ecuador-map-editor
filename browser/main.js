@@ -47,14 +47,10 @@ iD.ui.Account = function () {
 
 // Override iD.modes.Browse to avoid dragging points without selecting them
 require('../lib/id-browse')
+require('../lib/id-tag-classes')
 
 id = iD()
-  .presets({
-    presets: require('../node_modules/iD/data/presets/presets.json'),
-    defaults: require('../node_modules/iD/data/presets/defaults.json'),
-    categories: require('../node_modules/iD/data/presets/categories.json'),
-    fields: require('../node_modules/iD/data/presets/fields.json')
-  })
+  .presets(require('presets-wao'))
   .imagery(require('../node_modules/iD/data/imagery.json'))
   .taginfo(iD.services.taginfo())
   .assetPath('dist/')

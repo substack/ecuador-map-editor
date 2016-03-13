@@ -16,7 +16,7 @@ var concat = require('concat-stream')
 
 var st = ecstatic(path.join(__dirname, 'public'))
 var vst = ecstatic(path.join(__dirname, 'node_modules/iD'))
-
+var pst = ecstatic(path.join(__dirname, 'node_modules/presets-wao'))
 module.exports = function (osm) {
   var osmrouter = osmserver(osm)
   return http.createServer(function (req, res) {
@@ -25,6 +25,9 @@ module.exports = function (osm) {
     else if (/^\/(data|dist|css)\//.test(req.url)) {
       req.url = req.url.replace(/^\/css\/img\//, '/dist/img/')
       vst(req, res)
+    } else if (/^\/presets\//.test(req.url)) {
+      req.url = req.url.replace(/^\/presets/, '')
+      pst(req, res)
     } else if (req.method === 'POST' && req.url === '/replicate') {
       body(req, res, function (err, params) {
         if (err) return error(400, res, err)

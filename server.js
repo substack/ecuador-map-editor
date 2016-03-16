@@ -24,6 +24,9 @@ module.exports = function (osm) {
   var server = http.createServer(function (req, res) {
     console.log(req.method, req.url)
     if (osmrouter.handle(req, res)) {
+      if (RegExp('^/api/0.6/map\\b').test(req.url)) {
+        res.setHeader('cache-control', 'max-age=0')
+      }
     } else if (req.method === 'POST' && req.url === '/replicate') {
       if (replicating) return error(400, res, 'Replication in progress.\n')
       body(req, res, function (err, params) {
